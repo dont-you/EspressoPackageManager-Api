@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2eehttp://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd" version="2.5">
 	<servlet>
-		<servlet-name>users</servlet-name>
-		<servlet-class>com.espresso.api.UserServlet
+		<servlet-name>user-table-servlet</servlet-name>
+		<servlet-class>com.espresso.api.UserTableServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>users</servlet-name>
-		<url-pattern>/users</url-pattern>
+		<servlet-name>user-table-servlet</servlet-name>
+		<url-pattern>/users/*</url-pattern>
 	</servlet-mapping>
+
 </web-app>
