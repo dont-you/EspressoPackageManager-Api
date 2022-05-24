@@ -9,5 +9,4 @@
 		<servlet-name>user-table-servlet</servlet-name>
 		<url-pattern>/users/*</url-pattern>
 	</servlet-mapping>
-
 </web-app>

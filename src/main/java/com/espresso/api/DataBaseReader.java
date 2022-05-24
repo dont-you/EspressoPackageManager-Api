@@ -40,33 +40,12 @@ public class DataBaseReader {
 
     }
 
-    private String formateParametrToWhereCondition(String condition){
-        String result = "";
-        for(char c: condition.toCharArray()){
-            if (c != ':')
-                result += c;
-            else
-                result += "=\'";
-        }
-        result += "\'";
-        return result;
+    //first variant
+    private String formateParametressToWhereCondition(Map<String, String[]> parametress) {
+        return "";
     }
 
-    private String formateEntryToWhereCondition(Entry<String,String[]> entry){
-        String result="";
-
-        int i = 0;
-        for(String condition: entry.getValue()){
-            System.out.println(condition);
-            result += formateParametrToWhereCondition(condition);
-            if (++i != entry.getValue().length)
-                result+=" OR ";
-        }
-
-        System.out.println("result");
-        return result;
-    }
-    public List<ITable> getData(Map<String, String[]> parametress, String tab_references,InstanceCreator instanceCreator) {
+    public List<ITable> getData(Map<String, String[]> parametress,ITable instanceCreator) {
 
         List<ITable> result = new ArrayList<>();
 
@@ -79,7 +58,9 @@ public class DataBaseReader {
             if (parametress.containsKey("fields") && parametress.get("fields").length != 0)
                 select_expr = Arrays.asList(parametress.get("fields")).stream().collect(Collectors.joining(","));
 
-            String request = "SELECT " + select_expr + " FROM " + tab_references;
+            where_condition = formateParametressToWhereCondition(parametress);
+
+            String request = "SELECT " + select_expr + " FROM " + instanceCreator.getTableName();
             if (where_condition != null)
                 request += "WHERE " + where_condition;
             if (order_by_col_name != null)
@@ -93,7 +74,7 @@ public class DataBaseReader {
 
             int i = 0;
             while (data.next()) {
-                result.add(instanceCreator.create());
+                result.add(instanceCreator.createInstance());
                 result.get(i).fill(data);
                 ;
                 i++;
@@ -107,7 +88,7 @@ public class DataBaseReader {
         return result;
     }
 
-    public String postData(Map<String, String[]> parametress, String tab_references){
+    public String postData(Map<String, String[]> parametress, ITable instanceCreator){
         String result="successful";
         String col_names="";
         String value_list = "";
@@ -121,7 +102,7 @@ public class DataBaseReader {
 
         col_names=argumentNames.stream().collect(Collectors.joining(",","(",")"));
         value_list=argumentValues.stream().collect(Collectors.joining(",","(",")"));
-        String request = "INSERT INTO " + tab_references + col_names + " VALUES" + value_list + ";";
+        String request = "INSERT INTO " + instanceCreator.getTableName() + col_names + " VALUES" + value_list + ";";
         try {
             Statement stmt = connection.createStatement();
             stmt.execute(request);
@@ -134,23 +115,21 @@ public class DataBaseReader {
     }
 
 
-    public String putData(Map<String, String[]> parametress, String tab_references){
+    public String putData(Map<String, String[]> parametress, ITable instanceCreator){
         String result="successful";
         String assignment_list = "";
         String where_condition = "";
         List<String> sets=new ArrayList<>();
 
+        where_condition = formateParametressToWhereCondition(parametress);
+
         for(Entry<String,String[]> entry: parametress.entrySet()){
-            if(entry.getKey().compareTo("conditions")==0){
-                where_condition+=formateEntryToWhereCondition(entry);
-            } else {
-                sets.add(entry.getKey() + "=" + "\'" +entry.getValue()[0] + "\'");
-            }
+            sets.add(entry.getKey() + "=" + "\'" +entry.getValue()[0] + "\'");
         }
 
         assignment_list=sets.stream().collect(Collectors.joining(", "));
 
-        String request = "UPDATE " + tab_references + " SET " + assignment_list + " WHERE " + where_condition + ";";
+        String request = "UPDATE " + instanceCreator.getTableName() + " SET " + assignment_list + " WHERE " + where_condition + ";";
         try {
             Statement stmt = connection.createStatement();
             stmt.execute(request);
@@ -163,18 +142,15 @@ public class DataBaseReader {
     }
 
 
-    public String deleteData(Map<String, String[]> parametress, String tab_references){
+    public String deleteData(Map<String, String[]> parametress, ITable instanceCreator){
         String result="successful";
         String where_condition = "";
 
         System.out.println(parametress.entrySet().size());
-        for(Entry<String,String[]> entry: parametress.entrySet()){
-            if(entry.getKey().compareTo("conditions")==0){
-                where_condition += formateEntryToWhereCondition(entry);
-            }
-        }
+        where_condition = formateParametressToWhereCondition(parametress);
 
-        String request = "DELETE FROM " + tab_references + " WHERE " + where_condition + ";";
+
+        String request = "DELETE FROM " + instanceCreator.getTableName() + " WHERE " + where_condition + ";";
         System.out.println(request);
         try {
             Statement stmt = connection.createStatement();
@@ -185,9 +161,5 @@ public class DataBaseReader {
         }
 
         return result;
-    }
-
-    static interface InstanceCreator {
-        ITable create();
     }
 }

@@ -3,7 +3,6 @@ package com.espresso.api;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.*;
 
 @WebServlet(urlPatterns = {"/users","/users/*"})
 public class UserTableServlet extends HttpServlet
@@ -31,49 +29,22 @@ public class UserTableServlet extends HttpServlet
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp){
-        DataBaseReader.initialize();
-        DataBaseReader.InstanceCreator userTableInstanceCreator = () -> {
-            return new UserTable();
-        };
-        DataBaseReader dataBaseReader = new DataBaseReader();
-        List<ITable> res = dataBaseReader.getData(req.getParameterMap(), "user", userTableInstanceCreator);
-
-        for(ITable user: res){
-            if(user!=null)
-                user.print();
-        }
-
-        try {
-            Gson gson = new Gson();
-            resp.getOutputStream().println(gson.toJson(res));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        MainServlet.doGet(req, resp, new UserTable());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DataBaseReader.initialize();
-        DataBaseReader dataBaseReader = new DataBaseReader();
-        String res = dataBaseReader.postData(req.getParameterMap(), "user");
-        resp.getOutputStream().println(res);
+        MainServlet.doPost(req, resp, new UserTable());
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DataBaseReader.initialize();
-        DataBaseReader dataBaseReader = new DataBaseReader();
-        String res = dataBaseReader.putData(req.getParameterMap(), "user");
-        resp.getOutputStream().println(res);
+        MainServlet.doPut(req, resp, new UserTable());
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DataBaseReader.initialize();
-        DataBaseReader dataBaseReader = new DataBaseReader();
-        String res = dataBaseReader.deleteData(req.getParameterMap(), "user");
-        resp.getOutputStream().println(res);
+        MainServlet.doDelete(req, resp, new UserTable());
     }
 
     @Override
@@ -85,6 +56,16 @@ public class UserTableServlet extends HttpServlet
     class UserTable implements ITable{
         public String login=null;
         public String password=null;
+
+        @Override
+        public String getTableName() {
+            return "user";
+        }
+
+        @Override
+        public ITable createInstance() {
+            return new UserTable();
+        }
 
         @Override
         public void fill(ResultSet data){
@@ -106,5 +87,6 @@ public class UserTableServlet extends HttpServlet
             if(login!=null) System.out.println("login:" +login);
             if(password!=null) System.out.println("password:" +password);
         }
+
     }
 }
