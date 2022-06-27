@@ -2,12 +2,56 @@
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2eehttp://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd" version="2.5">
 	<servlet>
 		<servlet-name>user-table-servlet</servlet-name>
-		<servlet-class>com.espresso.api.UserTableServlet
+		<servlet-class>com.espresso.api.servlets.json_servlets.UserTableServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>user-table-servlet</servlet-name>
 		<url-pattern>/users/*</url-pattern>
 	</servlet-mapping>
-
+	<servlet>
+		<servlet-name>icon-table-servlet</servlet-name>
+		<servlet-class>com.espresso.api.servlets.file_servlets.IconTableServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>icon-table-servlet</servlet-name>
+		<url-pattern>/icons/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>application-table-servlet</servlet-name>
+		<servlet-class>com.espresso.api.servlets.json_servlets.ApplicationTableServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>application-table-servlet</servlet-name>
+		<url-pattern>/applications/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>library-table-servlet</servlet-name>
+		<servlet-class>com.espresso.api.servlets.json_servlets.LibraryTableServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>library-table-servlet</servlet-name>
+		<url-pattern>/libraryes/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>library_has_application-table-servlet</servlet-name>
+		<servlet-class>com.espresso.api.servlets.json_servlets.LibraryHasApplicationTableServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>library_has_application-table-servlet</servlet-name>
+		<url-pattern>/libraryes_has_applications/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>library_has_library-table-servlet</servlet-name>
+		<servlet-class>com.espresso.api.servlets.json_servlets.LibraryHasLibraryTableServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>library_has_library-table-servlet</servlet-name>
+		<url-pattern>/libraryes_has_libraryes/*</url-pattern>
+	</servlet-mapping>
 </web-app>
