@@ -1,8 +1,7 @@
-package com.espresso.api;
+package com.espresso.api.servlets.json_servlets;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -11,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.espresso.api.servlets.MainServlet;
+import com.espresso.api.tables.UserTable;
 
 @WebServlet(urlPatterns = {"/users","/users/*"})
 public class UserTableServlet extends HttpServlet
@@ -29,17 +30,23 @@ public class UserTableServlet extends HttpServlet
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp){
-        MainServlet.doGet(req, resp, new UserTable());
+        try {
+            MainServlet.doGet(req, resp, new UserTable());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        MainServlet.doPost(req, resp, new UserTable());
+        String jsonBody = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        MainServlet.doPost(req, resp, new UserTable(),jsonBody);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        MainServlet.doPut(req, resp, new UserTable());
+        String jsonBody = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        MainServlet.doPut(req, resp, new UserTable(),jsonBody);
     }
 
     @Override
@@ -52,41 +59,4 @@ public class UserTableServlet extends HttpServlet
         log("destroy");
     }
 
-
-    class UserTable implements ITable{
-        public String login=null;
-        public String password=null;
-
-        @Override
-        public String getTableName() {
-            return "user";
-        }
-
-        @Override
-        public ITable createInstance() {
-            return new UserTable();
-        }
-
-        @Override
-        public void fill(ResultSet data){
-            try{
-                login = data.getString("login");
-            }catch(SQLException e){
-                System.out.println("Field will not found");
-            }
-
-            try{
-                password = data.getString("password");
-            }catch(SQLException e){
-                System.out.println("Field will not found");
-            }
-        }
-
-        @Override
-        public void print(){
-            if(login!=null) System.out.println("login:" +login);
-            if(password!=null) System.out.println("password:" +password);
-        }
-
-    }
 }
