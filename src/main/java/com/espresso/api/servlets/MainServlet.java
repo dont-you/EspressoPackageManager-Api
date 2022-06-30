@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.espresso.api.dbhandlers.DataBaseReader;
+import com.espresso.api.dbhandlers.WhereConditionHandler;
 import com.espresso.api.exceptions.ApiExceptions;
 import com.espresso.api.servlets.handlers.DeleteParametersControl;
 import com.espresso.api.servlets.handlers.GetParametersControl;
 import com.espresso.api.servlets.handlers.PostParametersControl;
-import com.espresso.api.servlets.handlers.WhereConditionHandler;
 import com.espresso.api.tables.Table;
 import com.google.gson.Gson;
 
@@ -93,9 +93,8 @@ public class MainServlet
                 cond = whereCond.recursive(cond);
             }
 
-            String fields = "*";
             if(parameters.containsKey("fields")){
-                fields = Arrays.stream(parameters.get("fields")).collect(Collectors.joining(","));
+                Arrays.stream(parameters.get("fields")).collect(Collectors.joining(","));
             }
 
             System.out.println(cond);

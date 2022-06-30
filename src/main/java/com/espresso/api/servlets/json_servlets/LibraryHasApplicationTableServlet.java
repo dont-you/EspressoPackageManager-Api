@@ -33,7 +33,6 @@ public class LibraryHasApplicationTableServlet extends HttpServlet
         try {
             MainServlet.doGet(req, resp, new LibraryHasApplicationTable());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

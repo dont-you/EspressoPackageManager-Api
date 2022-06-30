@@ -33,7 +33,6 @@ public class ApplicationTableServlet extends HttpServlet
         try {
             MainServlet.doGet(req, resp, new ApplicationTable());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

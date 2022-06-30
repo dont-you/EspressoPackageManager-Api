@@ -2,9 +2,6 @@ package com.espresso.api.dbhandlers;
 
 import java.sql.*;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import com.espresso.api.exceptions.DeleteStatementExceptions;
 import com.espresso.api.exceptions.GetStatementExceptions;
@@ -37,18 +34,6 @@ public class DataBaseReader {
             System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
             throw new InternalErrorExceptions("Something went wrong on the server",1);
         }
-    }
-
-    private ResultSet executeRequest(String req) throws Exception {
-        // if (connection == null)
-        //     throw new IOException("connection is null");
-        // try {
-        //     Statement stmt = connection.createStatement();
-        //     return stmt.executeQuery(req);
-        // } catch (SQLException e) {
-        //     throw e;
-        // }
-        throw new Exception("");
     }
 
     public JSONArray getData(Table entry, String fields, String where_cond) throws GetStatementExceptions {
