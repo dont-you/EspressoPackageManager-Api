@@ -13,7 +13,7 @@ import com.espresso.api.tables.Table;
 import org.json.JSONArray;
 
 
-public class DataBaseReader {
+public final class DataBaseReader {
     static public Connection connection = null;
 
     static final private String serverAdress = "localhost:3306";

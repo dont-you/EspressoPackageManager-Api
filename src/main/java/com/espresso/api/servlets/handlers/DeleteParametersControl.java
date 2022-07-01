@@ -3,7 +3,7 @@ package com.espresso.api.servlets.handlers;
 import com.espresso.api.exceptions.PassedParametersException;
 import com.espresso.api.tables.Table;
 
-public class DeleteParametersControl extends ParametersControl{
+public final class DeleteParametersControl extends ParametersControl{
     public void performCheckout(Table entry,String id) throws PassedParametersException {
         if(!id.matches("^[\\d]+$")){
 

@@ -6,7 +6,7 @@ import com.espresso.api.dbhandlers.WhereConditionHandler;
 import com.espresso.api.exceptions.PassedParametersException;
 import com.espresso.api.tables.Table;
 
-public class GetParametersControl extends ParametersControl{
+public final class GetParametersControl extends ParametersControl{
     public void performChecout(Table entry, Map<String,String[]> parameters) throws PassedParametersException{
         try{
             WhereConditionHandler whereCond = new WhereConditionHandler();

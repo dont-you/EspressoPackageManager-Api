@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
-public class PostParametersControl extends ParametersControl{
+public final class PostParametersControl extends ParametersControl{
     public void performCheckout(Table entry,String jsonBody) throws PassedParametersException{
 
         entry = tryPerformFilling(entry, jsonBody);

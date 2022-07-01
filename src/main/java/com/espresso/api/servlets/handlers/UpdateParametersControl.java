@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
-public class UpdateParametersControl extends ParametersControl{
+public final class UpdateParametersControl extends ParametersControl{
     public void performChecout(Table entry, Map<String,String[]> parameters, String jsonBody) throws PassedParametersException{
 
         entry = tryPerformFilling(entry, jsonBody);
