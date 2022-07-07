@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.espresso.api.dbhandlers.DataBaseReader;
-import com.espresso.api.dbhandlers.WhereConditionHandler;
+import com.espresso.api.tables.WhereConditionHandler;
 import com.espresso.api.exceptions.ApiExceptions;
 import com.espresso.api.servlets.handlers.DeleteParametersControl;
 import com.espresso.api.servlets.handlers.GetParametersControl;

@@ -3,7 +3,7 @@ package com.espresso.api.servlets.handlers;
 import java.util.List;
 import java.util.Map;
 
-import com.espresso.api.dbhandlers.WhereConditionHandler;
+import com.espresso.api.tables.WhereConditionHandler;
 import com.espresso.api.exceptions.PassedParametersException;
 import com.espresso.api.tables.Table;
 import com.google.gson.Gson;

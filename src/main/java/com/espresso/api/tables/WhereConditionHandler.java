@@ -1,4 +1,4 @@
-package com.espresso.api.dbhandlers;
+package com.espresso.api.tables;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
