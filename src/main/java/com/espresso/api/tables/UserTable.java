@@ -1,16 +1,16 @@
 package com.espresso.api.tables;
 
 public class UserTable extends Table{
-    Integer id = null;
-    String name = null;
-    String password = null;
-    String email = null;
-    String isContributor = null;
-    String description = null;
-    String companyName = null;
-    String linkOnWebSite = null;
-    String linkOnGit = null;
-    Integer icon_id = null;
+    public Integer id = null;
+    public String name = null;
+    public String password = null;
+    public String email = null;
+    public String isContributor = null;
+    public String description = null;
+    public String companyName = null;
+    public String linkOnWebSite = null;
+    public String linkOnGit = null;
+    public Integer icon_id = null;
 
     @Override
     public String[] getFieldsNames() {

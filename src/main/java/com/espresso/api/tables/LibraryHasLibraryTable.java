@@ -1,8 +1,8 @@
 package com.espresso.api.tables;
 
 public class LibraryHasLibraryTable extends Table{
-    Integer library_id=null;
-    Integer library_id1=null;
+    public Integer library_id=null;
+    public Integer library_id1=null;
 
     @Override
     public String[] getFieldsNames() {
