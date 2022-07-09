@@ -2,6 +2,11 @@ package com.espresso.api.dbhandlers;
 
 import java.sql.*;
 
+import com.espresso.api.tables.Table;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public final class DataBaseConnector {
     public Connection connection = null;
 
@@ -18,5 +23,29 @@ public final class DataBaseConnector {
             System.out.println(e.getMessage());
             System.out.println("==================================================================================================================================");
         }
+    }
+
+    public JSONObject getById(Table entry){
+        return null;
+    }
+
+    public JSONArray listGet(String whereCond){
+        return null;
+    }
+
+    public Integer createNewEntry(Table entry){
+        return null;
+    }
+
+    public void updateEachFieldInEntry(Table entry){
+
+    }
+
+    public Table updateSelectedFields(Table entry){
+        return null;
+    }
+
+    public void deleteIfExists(Table entry){
+
     }
 }
