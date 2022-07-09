@@ -1,33 +1,9 @@
 package com.espresso.api.tables;
 
 public class IconTable extends Table{
-    Integer id = null;
-    String imagePath = null;
-    String size = null;
-
-    // @Override
-    // public String[] getFieldsNames() {
-    //     return null;
-    // }
-
-    // @Override
-    // public String getPrimaryKeyName() {
-    //     return null;
-    // }
-
-    // @Override
-    // public String[] getRequiredFieldsWhileCreating() {
-    //     return null;
-    // }
-
-    // @Override
-    // public String getTableName() {
-    //     return null;
-    // }
-    // @Override
-    // public void dataValidation() {
-
-    // }
+    public Integer id = null;
+    public String imagePath = null;
+    public String size = null;
 
     @Override
     public String[] getFieldsNames() {

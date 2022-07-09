@@ -1,10 +1,10 @@
 package com.espresso.api.tables;
 
 public class LibraryTable extends Table{
-    Integer id=null;
-    String name=null;
-    String description=null;
-    String linkToSource = null;
+    public Integer id=null;
+    public String name=null;
+    public String description=null;
+    public String linkToSource = null;
 
     @Override
     public String[] getFieldsNames() {
