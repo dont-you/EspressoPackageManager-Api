@@ -9,7 +9,7 @@ public final class DataBaseConnector {
     static final private String dataBaseName = "PackageManager";
     static final private String dataBaseUserName = "root";
 
-    DataBaseConnector(){
+    public DataBaseConnector(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://"+serverAdress+"/"+dataBaseName,dataBaseUserName,"1337");
