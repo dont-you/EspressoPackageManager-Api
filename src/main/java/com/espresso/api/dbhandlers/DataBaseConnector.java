@@ -34,7 +34,7 @@ public final class DataBaseConnector {
         this.dataBaseName = dataBaseName;
         this.password = password;
         this.dataBaseUserName = dataBaseUserName;
-        connect();
+        connect()
     }
 
     public DataBaseConnector(String dataBaseUserName, String password ,String dataBaseName, String serverAdress){
@@ -42,11 +42,11 @@ public final class DataBaseConnector {
         this.serverAdress = serverAdress;
     }
 
-    public JSONObject getById(int id){
+    public JSONObject getById(int id, String[] requiredFields){
         return null;
     }
 
-    public JSONArray listGet(String whereCond){
+    public JSONArray listGet(String whereCond, String[] requiredFields){
         return null;
     }
 
@@ -62,7 +62,7 @@ public final class DataBaseConnector {
         return null;
     }
 
-    public void deleteIfExists(Table entry){
+    public void deleteIfExists(int id){
 
     }
 }
