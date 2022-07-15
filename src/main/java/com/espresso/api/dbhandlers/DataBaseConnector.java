@@ -10,14 +10,15 @@ import org.json.JSONObject;
 public final class DataBaseConnector {
     public Connection connection = null;
 
-    static final private String serverAdress = "localhost:3306";
-    static final private String dataBaseName = "PackageManager";
-    static final private String dataBaseUserName = "root";
+    private String serverAdress = "localhost:3306";
+    private String dataBaseName = "PackageManager";
+    private String dataBaseUserName = "root";
+    private String password = "1337";
 
-    public DataBaseConnector(){
+    private void connect(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+serverAdress+"/"+dataBaseName,dataBaseUserName,"1337");
+            connection = DriverManager.getConnection("jdbc:mysql://"+serverAdress+"/"+dataBaseName,dataBaseUserName,password);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("==================================================================================================================================");
             System.out.println(e.getMessage());
@@ -25,7 +26,23 @@ public final class DataBaseConnector {
         }
     }
 
-    public JSONObject getById(Table entry){
+    public DataBaseConnector(){
+        connect();
+    }
+
+    public DataBaseConnector(String dataBaseUserName, String password ,String dataBaseName){
+        this.dataBaseName = dataBaseName;
+        this.password = password;
+        this.dataBaseUserName = dataBaseUserName;
+        connect();
+    }
+
+    public DataBaseConnector(String dataBaseUserName, String password ,String dataBaseName, String serverAdress){
+        this(dataBaseUserName,password,dataBaseName);
+        this.serverAdress = serverAdress;
+    }
+
+    public JSONObject getById(int id){
         return null;
     }
 
