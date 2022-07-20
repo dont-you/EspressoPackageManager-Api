@@ -4,10 +4,9 @@ import java.sql.*;
 
 import com.espresso.api.tables.Table;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-public final class DataBaseConnector {
+public class DataBaseConnector {
     public Connection connection = null;
 
     private String serverAdress = "localhost:3306";
@@ -34,35 +33,50 @@ public final class DataBaseConnector {
         this.dataBaseName = dataBaseName;
         this.password = password;
         this.dataBaseUserName = dataBaseUserName;
-        connect()
+        connect();
     }
 
     public DataBaseConnector(String dataBaseUserName, String password ,String dataBaseName, String serverAdress){
-        this(dataBaseUserName,password,dataBaseName);
+        this.dataBaseName = dataBaseName;
+        this.password = password;
+        this.dataBaseUserName = dataBaseUserName;
         this.serverAdress = serverAdress;
+        connect();
     }
 
-    public JSONObject getById(int id, String[] requiredFields){
+    public JSONObject getById(Table tableInstance,String id, String[] requiredFields){
+        try {
+            Statement stmt = connection.createStatement();
+            // ResultSet rs = stmt.executeQuery("SELECT * FROM icon");
+            ResultSet rs = stmt.executeQuery(tableInstance.getSelectStatementById(id,requiredFields));
+
+            // TODO replace with a function from ResultSetConverter
+            return ResultSetConverter.convert(rs).getJSONObject(0);
+            // TODO replace with a function from ResultSetConverter
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
-    public JSONArray listGet(String whereCond, String[] requiredFields){
-        return null;
-    }
+    // public JSONArray listGet(String whereCond, String[] requiredFields){
+    //     return null;
+    // }
 
-    public Integer createNewEntry(Table entry){
-        return null;
-    }
+    // public Integer createNewEntry(Table entry){
+    //     return null;
+    // }
 
-    public void updateEachFieldInEntry(Table entry){
+    // public void updateEachFieldInEntry(Table entry){
 
-    }
+    // }
 
-    public Table updateSelectedFields(Table entry){
-        return null;
-    }
+    // public Table updateSelectedFields(Table entry){
+    //     return null;
+    // }
 
-    public void deleteIfExists(int id){
+    // public void deleteIfExists(int id){
 
-    }
+    // }
 }
