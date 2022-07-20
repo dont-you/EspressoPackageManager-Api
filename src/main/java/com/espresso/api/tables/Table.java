@@ -77,7 +77,7 @@ public abstract class Table{
         return "SELECT " + fields + " FROM " + this.getTableName() + " " + where_condition;
     }
 
-    public String getSelectStatementById(String id, String[] fields){
+    public String getSelectStatementById(String fields, String id){
         return null;
     }
 
