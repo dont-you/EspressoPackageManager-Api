@@ -44,10 +44,10 @@ public class DataBaseConnector {
         connect();
     }
 
-    public JSONObject getById(Table tableInstance,String id, String[] requiredFields){
+    public JSONObject getById(Table tableInstance,String id, String requiredFields){
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(tableInstance.getSelectStatementById(id,requiredFields));
+            ResultSet rs = stmt.executeQuery(tableInstance.getSelectStatementById(requiredFields,id));
 
             // TODO replace with a function from ResultSetConverter
             return ResultSetConverter.convert(rs).getJSONObject(0);

@@ -38,9 +38,9 @@ public class DataBaseConnectorTest extends ClientForTests{
 
     @Test
     public void When_getById_Expect_objectWithSameId(){
+        String requireFields = "*";
         String requireId = "1";
-        String[] requireFields = new String[]{};
-        when(iconEntry.getSelectStatementById(requireId, requireFields)).thenReturn("SELECT * FROM icon WHERE id=1");
+        when(iconEntry.getSelectStatementById(requireFields, requireId)).thenReturn("SELECT * FROM icon WHERE id=1");
         JSONObject response = dBaseConnector.getById(iconEntry,requireId,requireFields);
         assertEquals("The object with the required ID must have the same ID in the pesponse",(int)Integer.valueOf(requireId),response.getInt("id"));
     }
@@ -48,7 +48,7 @@ public class DataBaseConnectorTest extends ClientForTests{
     @Test
     public void When_listGet_Expect_arrayWithEquals10(){
         String where_condition="";
-        String[] requireFields = new String[]{};
+        String requireFields = "*";
         when(iconEntry.getSelectStatement(requireFields,where_condition)).
     }
 
