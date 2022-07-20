@@ -11,7 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class ResultSetConverter{
+public class ResultSetConverter{
     public static JSONArray convert (ResultSet rs) throws SQLException{
         ResultSetMetaData md = rs.getMetaData();
         JSONArray result = new JSONArray();
