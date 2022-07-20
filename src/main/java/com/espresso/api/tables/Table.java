@@ -28,12 +28,12 @@ public abstract class Table{
     public abstract String getPrimaryKeyName();
     public abstract void dataValidation();
 
-    public final String getJson() {
+    public String getJson() {
         Gson gson = createGson();
         return gson.toJson(this);
     }
 
-    public final String getInsertStatement() {
+    public String getInsertStatement() {
         Gson gson = Table.createGson();
         JSONObject entry = new JSONObject(gson.toJson(this));
         String[] fieldsNames = JSONObject.getNames(entry);
@@ -53,7 +53,7 @@ public abstract class Table{
         return "INSERT INTO "+this.getTableName()+fields+values;
     }
 
-    public final String getDeleteStatement(){
+    public String getDeleteStatement(){
         Gson gson = Table.createGson();
         JSONObject entry = new JSONObject(gson.toJson(this));
         String[] keys = JSONObject.getNames(entry);
@@ -69,7 +69,7 @@ public abstract class Table{
         return "DELETE FROM " + this.getTableName() + " " + where_condition;
     }
 
-    public final String getSelectStatement(String fields,String where_condition){
+    public String getSelectStatement(String fields,String where_condition){
         if(where_condition!=null)
             where_condition = "WHERE " + where_condition;
         else
@@ -77,11 +77,11 @@ public abstract class Table{
         return "SELECT " + fields + " FROM " + this.getTableName() + " " + where_condition;
     }
 
-    public final String getSelectStatementById(String id, String[] fields){
+    public String getSelectStatementById(String id, String[] fields){
         return null;
     }
 
-    public final String getUpdateStatement(String where_condition){
+    public String getUpdateStatement(String where_condition){
 
         Gson gson = Table.createGson();
         JSONObject entry = new JSONObject(gson.toJson(this));
