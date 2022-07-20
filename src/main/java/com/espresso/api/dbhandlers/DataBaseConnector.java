@@ -47,7 +47,6 @@ public class DataBaseConnector {
     public JSONObject getById(Table tableInstance,String id, String[] requiredFields){
         try {
             Statement stmt = connection.createStatement();
-            // ResultSet rs = stmt.executeQuery("SELECT * FROM icon");
             ResultSet rs = stmt.executeQuery(tableInstance.getSelectStatementById(id,requiredFields));
 
             // TODO replace with a function from ResultSetConverter
