@@ -2,6 +2,7 @@ package com.espresso.api.dbhandlers;
 
 import java.sql.*;
 
+import com.espresso.api.exceptions.DataBaseException;
 import com.espresso.api.tables.Table;
 
 import org.json.JSONArray;
@@ -45,33 +46,32 @@ public class DataBaseConnector {
         connect();
     }
 
-    public JSONObject getById(Table tableInstance,String id, String requiredFields){
+    public ResultSet performQuery(String query) throws DataBaseException{
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(tableInstance.getSelectStatementById(requiredFields,id));
+            ResultSet rs = stmt.executeQuery(query);
 
-            // TODO replace with a function from ResultSetConverter
-            return ResultSetConverter.convert(rs).getJSONObject(0);
-            // TODO replace with a function from ResultSetConverter
+            return rs;
 
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DataBaseException("Error when executing a request with the message: \""+e.getMessage()+"\"",1);
         }
-        return null;
     }
 
-    public JSONArray listGet(Table tableInstance, String whereCond, String requiredFields){
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(tableInstance.getSelectStatement(requiredFields, whereCond));
+    public JSONObject getById(Table tableInstance,String id, String requiredFields) throws DataBaseException{
+        String query = tableInstance.getSelectStatementById(requiredFields,id);
+        JSONArray jsonArray = ResultSetConverter.convert(performQuery(query));
 
-            return ResultSetConverter.convert(rs);
+        if(jsonArray.length()!=0)
+            return jsonArray.getJSONObject(0);
+        else
+            throw new DataBaseException("The item was not found", 2);
+    }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return new JSONArray();
+    public JSONArray listGet(Table tableInstance, String whereCond, String requiredFields) throws DataBaseException{
+        String query = tableInstance.getSelectStatement(requiredFields, whereCond);
+        return ResultSetConverter.convert(performQuery(query));
     }
 
     // public Integer createNewEntry(Table entry){

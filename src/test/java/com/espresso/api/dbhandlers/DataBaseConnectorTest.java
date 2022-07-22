@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.espresso.api.ClientForTests;
+import com.espresso.api.exceptions.DataBaseException;
 import com.espresso.api.tables.IconTable;
 
 import org.json.JSONObject;
@@ -26,7 +27,7 @@ public class DataBaseConnectorTest extends ClientForTests{
     }
 
     @Test
-    public void When_getById_Expect_objectWithSameId(){
+    public void When_getById_Expect_objectWithSameId() throws DataBaseException{
         String requireFields = "*";
         String requireId = "1";
         when(iconEntry.getSelectStatementById(requireFields, requireId)).thenReturn("SELECT * FROM icon WHERE id=1");
@@ -35,7 +36,7 @@ public class DataBaseConnectorTest extends ClientForTests{
     }
 
     @Test
-    public void When_listGet_Expect_arrayWithEqualsRealValueFromDataBase() throws SQLException{
+    public void When_listGet_Expect_arrayWithEqualsRealValueFromDataBase() throws SQLException, DataBaseException{
         int expectedSize;
         ResultSet rs = this.performQuery("SELECT COUNT(id) FROM icon");
 

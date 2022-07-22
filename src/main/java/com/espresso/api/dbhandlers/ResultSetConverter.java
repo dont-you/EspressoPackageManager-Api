@@ -12,34 +12,41 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ResultSetConverter{
-    public static JSONArray convert (ResultSet rs) throws SQLException{
-        ResultSetMetaData md = rs.getMetaData();
-        JSONArray result = new JSONArray();
-        int num_cols = md.getColumnCount();
-        List<String> colNames = IntStream.range(0, num_cols).mapToObj( i -> {
-                try{
-                    return md.getColumnName(i+1);
-                } catch (SQLException e) {
-                    return "?";
-                }
-            }).collect(Collectors.toList());
-
-        while(rs.next()){
-            JSONObject row = new JSONObject();
-            colNames.forEach(cn -> {
+    public static JSONArray convert (ResultSet rs){
+        try{
+            ResultSetMetaData md = rs.getMetaData();
+            JSONArray result = new JSONArray();
+            int num_cols = md.getColumnCount();
+            List<String> colNames = IntStream.range(0, num_cols).mapToObj( i -> {
                     try{
-                        if(md.getColumnType(colNames.indexOf(cn)+1)==java.sql.Types.LONGVARCHAR){
-                            row.put(cn,new JSONArray(rs.getString(cn)));
-                        } else {
-                            row.put(cn, rs.getObject(cn));
-                        }
-
-                    } catch( JSONException | SQLException e){
-                        e.printStackTrace();
+                        return md.getColumnName(i+1);
+                    } catch (SQLException e) {
+                        return "?";
                     }
-                });
-            result.put(row);
+                }).collect(Collectors.toList());
+
+            while(rs.next()){
+                JSONObject row = new JSONObject();
+                colNames.forEach(cn -> {
+                        try{
+                            if(md.getColumnType(colNames.indexOf(cn)+1)==java.sql.Types.LONGVARCHAR){
+                                row.put(cn,new JSONArray(rs.getString(cn)));
+                            } else {
+                                row.put(cn, rs.getObject(cn));
+                            }
+
+                        } catch( JSONException | SQLException e){
+                            e.printStackTrace();
+                        }
+                    });
+                result.put(row);
+            }
+            return result;
+        } catch (SQLException e){
+            // TODO Add exception handling
+            e.printStackTrace();
+            return new JSONArray();
+            // TODO Add exception handling
         }
-        return result;
     }
 }
