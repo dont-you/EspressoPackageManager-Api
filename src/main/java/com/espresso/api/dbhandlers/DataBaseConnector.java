@@ -54,7 +54,6 @@ public class DataBaseConnector {
             return rs;
 
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DataBaseException("Error when executing a request with the message: \""+e.getMessage()+"\"",1);
         }
     }

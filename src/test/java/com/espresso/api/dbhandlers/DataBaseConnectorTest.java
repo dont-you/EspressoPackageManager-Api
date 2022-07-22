@@ -50,4 +50,19 @@ public class DataBaseConnectorTest extends ClientForTests{
         assertEquals("The recieved array must be the same size in database",expectedSize, dBaseConnector.listGet(iconEntry,where_condition,requireFields).length());
     }
 
+    @Test(expected = DataBaseException.class)
+    public void When_listGet_With_someError_Expect_dataBaseException() throws SQLException, DataBaseException{
+        int expectedSize;
+        ResultSet rs = this.performQuery("SELECT COUNT(id) FROM icon");
+
+        rs.next();
+        expectedSize = rs.getInt("COUNT(id)");
+
+        String requireFields = "*";
+        String where_condition="";
+
+        when(iconEntry.getSelectStatement(requireFields,where_condition)).thenReturn("simulation of the error");
+        assertEquals("Should throw an exception because we are simulating some kind of error",expectedSize, dBaseConnector.listGet(iconEntry,where_condition,requireFields).length());
+    }
+
 }
