@@ -23,7 +23,7 @@ public class ClientForTests{
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhos:3306/"+DBName,user,password);
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+DBName,user,password);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("==================================================================================================================================");
             System.out.println(e.getMessage());
@@ -44,7 +44,13 @@ public class ClientForTests{
         }
     }
 
-    public static ResultSet performQuery(String query) throws SQLException{
-        return connection.createStatement().executeQuery(query);
+    public ResultSet performQuery(String query){
+        try {
+            return connection.createStatement().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

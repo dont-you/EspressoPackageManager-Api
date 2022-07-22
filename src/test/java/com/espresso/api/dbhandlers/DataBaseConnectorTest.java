@@ -4,13 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import com.espresso.api.ClientForTests;
 import com.espresso.api.tables.IconTable;
 
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -19,21 +18,11 @@ public class DataBaseConnectorTest extends ClientForTests{
 
     @Mock
     private IconTable iconEntry;
+    private DataBaseConnector dBaseConnector;
 
     public DataBaseConnectorTest(){
         MockitoAnnotations.initMocks(this);
-    }
-
-    static DataBaseConnector dBaseConnector;
-
-    @BeforeClass
-    public static void setup(){
         dBaseConnector = new DataBaseConnector(user,password,DBName);
-    }
-
-    @Before
-    public void setupForMethod(){
-        // iconEntry = new IconTable();
     }
 
     @Test
@@ -46,10 +35,18 @@ public class DataBaseConnectorTest extends ClientForTests{
     }
 
     @Test
-    public void When_listGet_Expect_arrayWithEquals10(){
-        String where_condition="";
+    public void When_listGet_Expect_arrayWithEqualsRealValueFromDataBase() throws SQLException{
+        int expectedSize;
+        ResultSet rs = this.performQuery("SELECT COUNT(id) FROM icon");
+
+        rs.next();
+        expectedSize = rs.getInt("COUNT(id)");
+
         String requireFields = "*";
-        when(iconEntry.getSelectStatement(requireFields,where_condition)).
+        String where_condition="";
+
+        when(iconEntry.getSelectStatement(requireFields,where_condition)).thenReturn("SELECT * FROM icon");
+        assertEquals("The recieved array must be the same size in database",expectedSize, dBaseConnector.listGet(iconEntry,where_condition,requireFields).length());
     }
 
 }

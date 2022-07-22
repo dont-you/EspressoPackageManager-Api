@@ -4,6 +4,7 @@ import java.sql.*;
 
 import com.espresso.api.tables.Table;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class DataBaseConnector {
@@ -59,9 +60,19 @@ public class DataBaseConnector {
         return null;
     }
 
-    // public JSONArray listGet(String whereCond, String[] requiredFields){
-    //     return null;
-    // }
+    public JSONArray listGet(Table tableInstance, String whereCond, String requiredFields){
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(tableInstance.getSelectStatement(requiredFields, whereCond));
+
+            return ResultSetConverter.convert(rs);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new JSONArray();
+    }
 
     // public Integer createNewEntry(Table entry){
     //     return null;
