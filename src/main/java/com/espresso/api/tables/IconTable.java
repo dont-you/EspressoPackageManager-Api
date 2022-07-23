@@ -3,7 +3,7 @@ package com.espresso.api.tables;
 public class IconTable extends Table{
     public Integer id = null;
     public String imagePath = null;
-    public String size = null;
+    public Integer size = null;
 
     @Override
     public String[] getFieldsNames() {
