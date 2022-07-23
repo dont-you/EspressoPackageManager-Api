@@ -1,5 +1,7 @@
 package com.espresso.api.tables;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,7 @@ public abstract class Table{
     public abstract String getTableName();
     public abstract String getPrimaryKeyName();
     public abstract void dataValidation();
+    public abstract String retrivePrimaryKeyFromResultSet(ResultSet generatedKeys) throws SQLException;
 
     public String getJson() {
         Gson gson = createGson();
