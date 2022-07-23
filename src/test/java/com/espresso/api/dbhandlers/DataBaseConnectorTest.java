@@ -1,6 +1,7 @@
 package com.espresso.api.dbhandlers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.sql.ResultSet;
@@ -24,6 +25,8 @@ public class DataBaseConnectorTest extends ClientForTests{
     public DataBaseConnectorTest(){
         MockitoAnnotations.initMocks(this);
         dBaseConnector = new DataBaseConnector(user,password,DBName);
+        iconEntry.imagePath = "/somepath/somefile";
+        iconEntry.size = 50 + "";
     }
 
     @Test
@@ -65,4 +68,27 @@ public class DataBaseConnectorTest extends ClientForTests{
         assertEquals("Should throw an exception because we are simulating some kind of error",expectedSize, dBaseConnector.listGet(iconEntry,where_condition,requireFields).length());
     }
 
+    @Test
+    public void When_createNewEntry_Expect_passedEntry_shouldEquals_entryInDataBase_withIdRecivedFromFunction() throws SQLException{
+
+        when(iconEntry.getInsertStatement()).thenReturn(
+                "INSERT INTO icon (imagePath,size) VALUES('" + iconEntry.imagePath + "'," + iconEntry.size + ")");
+
+        iconEntry.id = Integer.valueOf(dBaseConnector.createNewEntry(iconEntry));
+        ResultSet rs = this.performQuery("SELECT * FROM icon WHERE id="+iconEntry.id);
+        JSONObject createdEntry = new JSONObject();
+
+        rs.next();
+        createdEntry.put("id", rs.getInt("id"));
+        createdEntry.put("imagePath", rs.getString("imagePath"));
+        createdEntry.put("size", rs.getInt("size"));
+
+
+        when(iconEntry.getJson()).thenReturn(
+                new JSONObject("{\"id\":" + iconEntry.id + ", \"imagePath\":\"" + iconEntry.imagePath + "\",\"size\":"
+                        + iconEntry.size + "}").toString());
+
+        assertTrue("The created entry must be equal to the passed entry to the function",
+                iconEntry.getJson().equals(createdEntry.toString()));
+    }
 }

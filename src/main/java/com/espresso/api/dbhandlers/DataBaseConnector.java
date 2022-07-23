@@ -1,5 +1,7 @@
 package com.espresso.api.dbhandlers;
 
+import static org.mockito.Mockito.never;
+
 import java.sql.*;
 
 import com.espresso.api.exceptions.DataBaseException;
@@ -73,9 +75,21 @@ public class DataBaseConnector {
         return ResultSetConverter.convert(performQuery(query));
     }
 
-    // public Integer createNewEntry(Table entry){
-    //     return null;
-    // }
+    public String createNewEntry(Table entry){
+        String id = null;
+
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(entry.getInsertStatement(), Statement.RETURN_GENERATED_KEYS);
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            while(generatedKeys.next()){
+                id = generatedKeys.getLong(1)+"";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
 
     // public void updateEachFieldInEntry(Table entry){
 
