@@ -1,8 +1,5 @@
 package com.espresso.api.tables;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class UserTable extends Table{
     public Integer id = null;
     public String name = null;
@@ -37,14 +34,5 @@ public class UserTable extends Table{
     @Override
     public void dataValidation() {
 
-    }
-
-    @Override
-    public String retrivePrimaryKeyFromResultSet(ResultSet generatedKeys) throws SQLException {
-        String pk = null;
-        while(generatedKeys.next()){
-            pk = generatedKeys.getLong(1) + "";
-        }
-        return pk;
     }
 }

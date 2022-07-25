@@ -1,8 +1,5 @@
 package com.espresso.api.tables;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class LibraryHasLibraryTable extends Table{
     public Integer library_id=null;
     public Integer library_id1=null;
@@ -31,8 +28,4 @@ public class LibraryHasLibraryTable extends Table{
 
     }
 
-    @Override
-    public String retrivePrimaryKeyFromResultSet(ResultSet generatedKeys) throws SQLException {
-        return null;
-    }
 }
