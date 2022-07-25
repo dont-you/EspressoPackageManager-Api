@@ -26,7 +26,7 @@ public class DataBaseConnectorTest extends ClientForTests{
         MockitoAnnotations.initMocks(this);
         dBaseConnector = new DataBaseConnector(user,password,DBName);
         iconEntry.imagePath = "/somepath/somefile";
-        iconEntry.size = 50 + "";
+        iconEntry.size = 50;
     }
 
     @Test

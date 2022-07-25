@@ -75,15 +75,15 @@ public class DataBaseConnector {
         return ResultSetConverter.convert(performQuery(query));
     }
 
-    public String createNewEntry(Table entry){
-        String id = null;
+    public int createNewEntry(Table entry){
+        Integer id = null;
 
         try {
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(entry.getInsertStatement(), Statement.RETURN_GENERATED_KEYS);
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             while(generatedKeys.next()){
-                id = generatedKeys.getLong(1)+"";
+                id = (int) generatedKeys.getLong(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
