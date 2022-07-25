@@ -75,7 +75,7 @@ public class DataBaseConnector {
         return ResultSetConverter.convert(performQuery(query));
     }
 
-    public int createNewEntry(Table entry){
+    public int createNewEntry(Table entry) throws DataBaseException{
         Integer id = null;
 
         try {
@@ -86,8 +86,12 @@ public class DataBaseConnector {
                 id = (int) generatedKeys.getLong(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataBaseException("Error when executing a request with the message: \""+e.getMessage()+"\"",1);
         }
+
+        if(id==null)
+            throw new DataBaseException("For some reason recieve id from response was failure",3);
+
         return id;
     }
 

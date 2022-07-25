@@ -1,6 +1,8 @@
 package com.espresso.api.dbhandlers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -10,16 +12,20 @@ import java.sql.SQLException;
 import com.espresso.api.ClientForTests;
 import com.espresso.api.exceptions.DataBaseException;
 import com.espresso.api.tables.IconTable;
+import com.espresso.api.tables.LibraryHasApplicationTable;
 
 import org.json.JSONObject;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+
 public class DataBaseConnectorTest extends ClientForTests{
 
     @Mock
     private IconTable iconEntry;
+    @Mock
+    private LibraryHasApplicationTable libraryHasApplicationEntry;
     private DataBaseConnector dBaseConnector;
 
     public DataBaseConnectorTest(){
@@ -27,6 +33,8 @@ public class DataBaseConnectorTest extends ClientForTests{
         dBaseConnector = new DataBaseConnector(user,password,DBName);
         iconEntry.imagePath = "/somepath/somefile";
         iconEntry.size = 50;
+        libraryHasApplicationEntry.library_id = 1;
+        libraryHasApplicationEntry.application_id = 1;
     }
 
     @Test
@@ -69,7 +77,7 @@ public class DataBaseConnectorTest extends ClientForTests{
     }
 
     @Test
-    public void When_createNewEntry_Expect_passedEntry_shouldEquals_entryInDataBase_withIdRecivedFromFunction() throws SQLException{
+    public void When_createNewEntry_Expect_passedEntry_shouldEquals_entryInDataBase_withIdRecivedFromFunction() throws SQLException, DataBaseException{
 
         when(iconEntry.getInsertStatement()).thenReturn(
                 "INSERT INTO icon (imagePath,size) VALUES('" + iconEntry.imagePath + "'," + iconEntry.size + ")");
@@ -90,5 +98,24 @@ public class DataBaseConnectorTest extends ClientForTests{
 
         assertTrue("The created entry must be equal to the passed entry to the function",
                 iconEntry.getJson().equals(createdEntry.toString()));
+    }
+
+    @Test()
+    public void When_createNewEntry_Expect_exceptionWithCodeEqualThree_If_wePassEntryOfTable_libraryHasApplication() throws SQLException{
+        when(libraryHasApplicationEntry.getInsertStatement()).thenReturn(
+                "INSERT INTO library_has_application VALUES('" + libraryHasApplicationEntry.library_id + "'," + libraryHasApplicationEntry.application_id + ")");
+
+        DataBaseException thrown = assertThrows("id can be recived from this table, expect exception",
+                                                DataBaseException.class,
+                                                () -> dBaseConnector.createNewEntry(libraryHasApplicationEntry));
+        assertEquals(thrown.getMessage(), "For some reason recieve id from response was failure");
+
+        ResultSet rs = this.performQuery("SELECT COUNT(library_id) FROM library_has_application WHERE library_id=1 AND application_id=1");
+
+        rs.next();
+        int countEntryes = rs.getInt("COUNT(library_id)");
+
+        assertNotEquals("Although we got an exception, the entry should be created",countEntryes, 0);
+
     }
 }
